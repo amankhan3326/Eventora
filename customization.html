@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Customize Invitation - Eventora</title>
+  <!-- External Libraries for PDF Download -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jsPDF/2.5.1/jspdf.umd.min.js"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cormorant+Garamond:wght@300;400;600&display=swap');
+
+    /* Global Styles */
+    body {
+      margin: 0;
+      font-family: 'Cormorant Garamond', serif;
+      background: linear-gradient(to right, #ffecd2, #fcb69f);
+      color: #333;
+      transition: background 0.3s, color 0.3s;
+    }
+    h1, h2, h3, .logo, .tagline {
+      font-family: 'Great Vibes', cursive;
+    }
+
+    /* Header */
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #ff6f61;
+      color: #fff;
+      padding: 10px 20px;
+    }
+    .logo-container {
+      display: flex;
+      flex-direction: column;
+    }
+    .logo { margin: 0; font-size: 32px; }
+    .tagline { margin: 0; font-size: 18px; font-style: italic; }
+    .nav-buttons { display: flex; gap: 10px; }
+    .nav-buttons button {
+      padding: 8px 12px;
+      border: none;
+      background: #fff;
+      color: #ff6f61;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    /* Main Content */
+    main { padding: 20px; }
+    .customization-container {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .customization-form, .preview {
+      background: rgba(255,255,255,0.9);
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      flex: 1;
+      min-width: 300px;
+    }
+    .customization-form h2, .preview h2 {
+      text-align: center;
+      margin-bottom: 15px;
+    }
+    .customization-form label {
+      display: block;
+      margin: 10px 0 5px;
+      font-weight: bold;
+    }
+    .customization-form input,
+    .customization-form select,
+    .customization-form textarea {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-family: 'Cormorant Garamond', serif;
+    }
+    .cta {
+      display: block;
+      width: fit-content;
+      margin: 20px auto;
+      padding: 12px 24px;
+      background: #ff6f61;
+      color: #fff;
+      border: none;
+      font-size: 20px;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+
+    /* Preview Section */
+    .preview {
+      text-align: center;
+      padding: 20px;
+    }
+    .preview-container {
+      padding: 20px;
+      border-radius: 10px;
+      text-align: center;
+      border: 2px solid #333;
+      min-height: 300px;
+      background: #fff; /* default background */
+    }
+    .preview p, .preview h3 {
+      margin: 5px 0;
+    }
+    .background-options {
+      margin-top: 15px;
+    }
+    .background-option {
+      display: inline-block;
+      margin: 5px;
+      width: 50px;
+      height: 50px;
+      cursor: pointer;
+      border-radius: 5px;
+      border: 2px solid #fff;
+    }
+    /* Decorative backgrounds */
+    #bg1 { background: url('https://source.unsplash.com/400x400/?flowers') no-repeat center/cover; }
+    #bg2 { background: url('https://source.unsplash.com/400x400/?party') no-repeat center/cover; }
+    #bg3 { background: url('https://source.unsplash.com/400x400/?wedding') no-repeat center/cover; }
+
+    /* Custom Background Upload Styles */
+    .custom-background {
+      margin-top: 15px;
+      text-align: center;
+    }
+    .custom-background input {
+      display: block;
+      margin: 10px auto;
+    }
+
+    /* Print Styles: Only print the preview container */
+    @media print {
+      body * {
+        visibility: hidden;
+      }
+      #previewContainer, #previewContainer * {
+        visibility: visible;
+      }
+      #previewContainer {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+      }
+    }
+
+    /* Footer */
+    footer {
+      background: #333;
+      color: #fff;
+      text-align: center;
+      padding: 10px 0;
+      margin-top: 20px;
+    }
+    footer a { color: #ff6f61; text-decoration: none; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo-container">
+      <h1 class="logo">Eventora</h1>
+      <p class="tagline">Your Celebration, Your Style!</p>
+    </div>
+    <div class="nav-buttons">
+      <button onclick="window.location.href='index.html'">Home</button>
+      <button onclick="window.location.href='Eventora_InvitationCustomization.html'">Customize Invitation</button>
+      <button onclick="window.location.href='Eventora_Dashboard.html'">Dashboard</button>
+    </div>
+  </header>
+  
+  <main>
+    <div class="customization-container">
+      <div class="customization-form">
+        <h2>Customize Your Invitation</h2>
+        <!-- Basic Information -->
+        <label for="eventName">Event Name:</label>
+        <input type="text" id="eventName" placeholder="e.g., Amaan’s Birthday Bash">
+        
+        <label for="hostNames">Host Name(s):</label>
+        <input type="text" id="hostNames" placeholder="e.g., Hosted by Amaan & Family">
+        
+        <label for="eventType">Event Type:</label>
+        <select id="eventType">
+          <option value="">Select Event Type</option>
+          <option value="Birthday">Birthday</option>
+          <option value="Wedding">Wedding</option>
+          <option value="Baby Shower">Baby Shower</option>
+          <option value="Anniversary">Anniversary</option>
+          <option value="Other">Other</option>
+        </select>
+        
+        <!-- Event Details -->
+        <label for="eventDate">Event Date:</label>
+        <input type="date" id="eventDate">
+        
+        <label for="eventTime">Event Time:</label>
+        <select id="eventTime">
+          <option value="">Select Time</option>
+          <option value="12:00 AM">12:00 AM</option>
+          <option value="1:00 AM">1:00 AM</option>
+          <option value="2:00 AM">2:00 AM</option>
+          <option value="3:00 AM">3:00 AM</option>
+          <option value="4:00 AM">4:00 AM</option>
+          <option value="5:00 AM">5:00 AM</option>
+          <option value="6:00 AM">6:00 AM</option>
+          <option value="7:00 AM">7:00 AM</option>
+          <option value="8:00 AM">8:00 AM</option>
+          <option value="9:00 AM">9:00 AM</option>
+          <option value="10:00 AM">10:00 AM</option>
+          <option value="11:00 AM">11:00 AM</option>
+          <option value="12:00 PM">12:00 PM</option>
+          <option value="1:00 PM">1:00 PM</option>
+          <option value="2:00 PM">2:00 PM</option>
+          <option value="3:00 PM">3:00 PM</option>
+          <option value="4:00 PM">4:00 PM</option>
+          <option value="5:00 PM">5:00 PM</option>
+          <option value="6:00 PM">6:00 PM</option>
+          <option value="7:00 PM">7:00 PM</option>
+          <option value="8:00 PM">8:00 PM</option>
+          <option value="9:00 PM">9:00 PM</option>
+          <option value="10:00 PM">10:00 PM</option>
+          <option value="11:00 PM">11:00 PM</option>
+        </select>
+        
+        <label for="eventVenue">Venue/Location:</label>
+        <input type="text" id="eventVenue" placeholder="e.g., The Grand Banquet Hall, Delhi">
+        
+        <label for="dressCode">Dress Code (Optional):</label>
+        <input type="text" id="dressCode" placeholder="e.g., Formal Attire | Theme: Red & Gold">
+        
+        <label for="rsvpDetails">RSVP Details (Optional):</label>
+        <input type="text" id="rsvpDetails" placeholder="e.g., Contact: 1234567890 or email@example.com">
+        
+        <!-- Personal Touch -->
+        <label for="message">Short Message/Quote (Optional):</label>
+        <textarea id="message" rows="3" placeholder="Join us in celebrating this special moment with love and laughter!"></textarea>
+        
+        <label for="imageUpload">Upload Image/Graphics (Optional):</label>
+        <input type="file" id="imageUpload" accept="image/*">
+        
+        <label for="qrCodeUpload">Upload QR Code (Optional):</label>
+        <input type="file" id="qrCodeUpload" accept="image/*">
+        
+        <!-- Additional Features (Optional) -->
+        <label for="programSchedule">Program Schedule (Optional):</label>
+        <textarea id="programSchedule" rows="3" placeholder="Enter program schedule if applicable"></textarea>
+        
+        <label for="foodInfo">Food & Beverages Info (Optional):</label>
+        <textarea id="foodInfo" rows="2" placeholder="Special menu details or buffet info"></textarea>
+        
+        <label for="socialMedia">Social Media Links/Hashtags (Optional):</label>
+        <input type="text" id="socialMedia" placeholder="e.g., #AmaanBirthday">
+        
+        <button class="cta" onclick="updatePreview()">Update Preview</button>
+      </div>
+      
+      <div class="preview">
+        <h2>Invitation Preview</h2>
+        <div id="previewContainer" class="preview-container">
+          <h3 id="previewEventName"></h3>
+          <p id="previewHostNames"></p>
+          <p id="previewEventType"></p>
+          <p id="previewDate"></p>
+          <p id="previewTime"></p>
+          <p id="previewEventVenue"></p>
+          <p id="previewDressCode"></p>
+          <p id="previewRSVP"></p>
+          <p id="previewMessage"></p>
+          <p id="previewProgramSchedule"></p>
+          <p id="previewFoodInfo"></p>
+          <p id="previewSocialMedia"></p>
+        </div>
+        
+        <div class="background-options">
+          <h3>Select Background:</h3>
+          <div id="bg1" class="background-option" onclick="changeBackground('bg1')"></div>
+          <div id="bg2" class="background-option" onclick="changeBackground('bg2')"></div>
+          <div id="bg3" class="background-option" onclick="changeBackground('bg3')"></div>
+        </div>
+        
+        <div class="custom-background">
+          <label for="customBackground">Or Upload Your Own Background:</label>
+          <input type="file" id="customBackground" accept="image/*">
+          <button class="cta" onclick="uploadCustomBackground()">Upload Background</button>
+        </div>
+        
+        <button class="cta" onclick="downloadPDF()">Download PDF</button>
+        <button class="cta" onclick="window.print()">Print Invitation</button>
+        <button class="cta" onclick="saveInvitation()">Save Invitation</button>
+      </div>
+    </div>
+  </main>
+  
+  <footer>
+    <p>&copy; 2025 Eventora | Follow us on 
+      <a href="#">Facebook</a> | <a href="#">Instagram</a> | <a href="#">Twitter</a>
+    </p>
+  </footer>
+  
+  <script>
+    // Helper to update preview element if value is non-empty; hide it otherwise
+    function updateElement(id, label, value) {
+      const el = document.getElementById(id);
+      if (value.trim() !== "") {
+        el.innerText = label + value;
+        el.style.display = "block";
+      } else {
+        el.style.display = "none";
+      }
+    }
+    
+    function updatePreview() {
+      const eventName = document.getElementById('eventName').value;
+      const hostNames = document.getElementById('hostNames').value;
+      const eventType = document.getElementById('eventType').value;
+      const eventDate = document.getElementById('eventDate').value;
+      const eventTime = document.getElementById('eventTime').value;
+      const eventVenue = document.getElementById('eventVenue').value;
+      const dressCode = document.getElementById('dressCode').value;
+      const rsvpDetails = document.getElementById('rsvpDetails').value;
+      const message = document.getElementById('message').value;
+      const programSchedule = document.getElementById('programSchedule').value;
+      const foodInfo = document.getElementById('foodInfo').value;
+      const socialMedia = document.getElementById('socialMedia').value;
+      
+      updateElement('previewEventName', "Event Name: ", eventName);
+      updateElement('previewHostNames', "Host: ", hostNames);
+      updateElement('previewEventType', "Type: ", eventType);
+      updateElement('previewDate', "Date: ", eventDate);
+      updateElement('previewTime', "Time: ", eventTime);
+      updateElement('previewEventVenue', "Venue: ", eventVenue);
+      updateElement('previewDressCode', "Dress Code: ", dressCode);
+      updateElement('previewRSVP', "RSVP: ", rsvpDetails);
+      updateElement('previewMessage', "Message: ", message);
+      updateElement('previewProgramSchedule', "Program Schedule: ", programSchedule);
+      updateElement('previewFoodInfo', "Food Info: ", foodInfo);
+      updateElement('previewSocialMedia', "Social Media: ", socialMedia);
+    }
+    
+    function changeBackground(bgId) {
+      const bgStyle = document.getElementById(bgId).style.background;
+      document.getElementById('previewContainer').style.background = bgStyle;
+    }
+    
+    function uploadCustomBackground() {
+      const fileInput = document.getElementById('customBackground');
+      const file = fileInput.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          document.getElementById('previewContainer').style.background = 'url(' + e.target.result + ') no-repeat center/cover';
+        };
+        reader.readAsDataURL(file);
+      } else {
+        alert("Please select an image file.");
+      }
+    }
+    
+    function downloadPDF() {
+      html2canvas(document.getElementById('previewContainer')).then(canvas => {
+        const imgData = canvas.toDataURL('image/png');
+        const { jsPDF } = window.jspdf;
+        const pdf = new jsPDF();
+        pdf.addImage(imgData, 'PNG', 10, 10, 190, 0);
+        pdf.save("Invitation.pdf");
+      });
+    }
+    
+    function saveInvitation() {
+      alert("Invitation saved successfully!");
+    }
+  </script>
+</body>
+</html>

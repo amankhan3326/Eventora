@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Eventora - Your Celebration, Your Style!</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cormorant+Garamond:wght@300;400;600&display=swap');
+
+    /* Global Styles */
+    body {
+      margin: 0;
+      font-family: 'Cormorant Garamond', serif;
+      background: linear-gradient(to right, #ffecd2, #fcb69f);
+      color: #333;
+      transition: background 0.3s, color 0.3s;
+    }
+    h1, h2, h3, .logo, .tagline {
+      font-family: 'Great Vibes', cursive;
+    }
+
+    /* Dark Mode Styles */
+    .dark-mode {
+      background: #333;
+      color: #f0f0f0;
+    }
+    .dark-mode header.header {
+      background: #222;
+    }
+    .dark-mode .cta {
+      background: #444;
+    }
+    .dark-mode .event {
+      background: #555;
+      color: #f0f0f0;
+    }
+    .dark-mode footer {
+      background: #222;
+    }
+
+    /* Header */
+    header.header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #ff6f61;
+      color: #fff;
+      padding: 10px 20px;
+    }
+    .logo-container {
+      display: flex;
+      flex-direction: column;
+    }
+    .logo {
+      margin: 0;
+      font-size: 32px;
+    }
+    .tagline {
+      margin: 0;
+      font-size: 18px;
+      font-style: italic;
+    }
+    .nav-container {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .search-container {
+      display: none;
+    }
+    .search-container input {
+      padding: 8px;
+      border: 1px solid #ff6f61;
+      border-radius: 5px;
+    }
+    .nav-buttons {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .nav-buttons button {
+      padding: 8px 12px;
+      border: none;
+      background: #fff;
+      color: #ff6f61;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    /* Menu Slide (Side Menu) */
+    .menu-slide {
+      position: fixed;
+      top: 0;
+      right: -250px;
+      width: 250px;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.9);
+      color: #fff;
+      padding: 20px;
+      transition: right 0.3s;
+    }
+    .menu-slide.active {
+      right: 0;
+    }
+
+    /* Main Content */
+    main {
+      padding: 20px;
+      text-align: center;
+    }
+    .welcome-section {
+      margin-bottom: 30px;
+    }
+    .cta {
+      padding: 12px 24px;
+      background: #ff6f61;
+      color: #fff;
+      border: none;
+      font-size: 20px;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+    
+    .events {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 15px;
+      margin-bottom: 30px;
+    }
+    .event {
+      background: rgba(255, 255, 255, 0.9);
+      padding: 20px;
+      border-radius: 10px;
+      cursor: pointer;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      min-width: 120px;
+      transition: background 0.3s;
+    }
+    .event:hover {
+      background: #ffcccb;
+    }
+    .featured {
+      background: rgba(255, 255, 255, 0.9);
+      padding: 20px;
+      border-radius: 10px;
+      margin-bottom: 30px;
+    }
+    .upload-form {
+      background: rgba(255, 255, 255, 0.9);
+      padding: 20px;
+      border-radius: 10px;
+      display: none;
+      max-width: 400px;
+      margin: 0 auto;
+    }
+    
+    /* About Eventora (Description) Section */
+    .description {
+      max-width: 800px;
+      margin: 30px auto;
+    }
+    .description h2 {
+      font-size: 28px;
+      margin-bottom: 15px;
+      text-align: center;
+    }
+    .description p {
+      line-height: 1.6;
+      margin: 5px 0;
+      text-align: justify;
+    }
+
+    /* Login Modal */
+    .login-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+      display: none;
+      justify-content: center;
+      align-items: center;
+    }
+    .login-content {
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      text-align: center;
+      width: 300px;
+    }
+    .login-content input {
+      width: 90%;
+      padding: 8px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    .login-content button {
+      padding: 10px 20px;
+      background: #ff6f61;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    /* Footer */
+    footer {
+      background: #333;
+      color: #fff;
+      text-align: center;
+      padding: 10px 0;
+    }
+    footer a {
+      color: #ff6f61;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="logo-container">
+      <h1 class="logo">Eventora</h1>
+      <p class="tagline">Your Celebration, Your Style!</p>
+    </div>
+    <div class="nav-container">
+      <div class="search-container" id="searchBox">
+        <input type="text" id="searchInput" placeholder="Search events..." onkeypress="handleSearch(event)">
+      </div>
+      <div class="nav-buttons">
+        <button onclick="toggleSearch()">🔍</button>
+        <button onclick="openLoginModal()">👤 Login</button>
+        <button onclick="toggleMenu()">☰</button>
+      </div>
+    </div>
+  </header>
+  
+  <aside class="menu-slide" id="menuSlide">
+    <button onclick="toggleTheme()">Toggle Theme</button>
+    <button onclick="toggleMenu()">Close</button>
+  </aside>
+  
+  <main>
+    <section class="welcome-section">
+      <h1>Welcome to Eventora</h1>
+      <p>Your Celebration, Your Style!</p>
+      <button class="cta">Create Your Invitation</button>
+    </section>
+    
+    <section class="events">
+      <div class="event" onclick="navigateTo('Birthday')">🎂 Birthday</div>
+      <div class="event" onclick="navigateTo('Wedding')">💍 Wedding</div>
+      <div class="event" onclick="navigateTo('Baby Shower')">👶 Baby Shower</div>
+      <div class="event" onclick="showUploadForm()">📤 Upload Your Own</div>
+      <div class="event" onclick="navigateTo('Housewarming')">🏡 Housewarming</div>
+      <div class="event" onclick="navigateTo('Engagement')">💑 Engagement</div>
+      <div class="event" onclick="navigateTo('Openings')">🎉 Openings</div>
+    </section>
+    
+    <section class="featured">
+      <h2>Featured Invitations</h2>
+      <p>Explore beautiful invitation templates and start designing yours today!</p>
+    </section>
+    
+    <!-- About Eventora moved to the end with updated alignment -->
+    <section class="description">
+      <h2>About Eventora</h2>
+      <p>Welcome to Eventora, the ultimate destination for celebrating life's most cherished moments.</p>
+      <p>At Eventora, we believe every event is a unique story waiting to be told.</p>
+      <p>Our platform offers a wide range of beautifully designed invitation templates.</p>
+      <p>Whether it's a birthday, wedding, or baby shower, you'll find the perfect style.</p>
+      <p>We cater to all types of celebrations, including housewarmings and engagements.</p>
+      <p>Our easy-to-use interface ensures you can create personalized invitations effortlessly.</p>
+      <p>Every template is crafted with attention to detail and artistic flair.</p>
+      <p>We are committed to providing exceptional quality and innovative designs.</p>
+      <p>Our website is constantly updated with fresh ideas and inspiration.</p>
+      <p>Join our community of creatives and event enthusiasts.</p>
+      <p>Experience seamless navigation and a user-friendly design.</p>
+      <p>Our support team is always ready to help you create the perfect invitation.</p>
+      <p>Explore our features and discover the joy of celebration.</p>
+      <p>At Eventora, your event is our passion and our priority.</p>
+      <p>We invite you to transform your ideas into memorable experiences.</p>
+      <p>Thank you for choosing Eventora, where every celebration is uniquely yours.</p>
+    </section>
+    
+    <section class="upload-form" id="uploadForm">
+      <h2>Upload Your Event</h2>
+      <input type="text" placeholder="Event Name">
+      <input type="file">
+      <button onclick="submitEvent()">Submit</button>
+      <button onclick="hideUploadForm()">Cancel</button>
+    </section>
+  </main>
+  
+  <div class="login-modal" id="loginModal">
+    <div class="login-content">
+      <span class="close" onclick="closeLoginModal()">&times;</span>
+      <h2>Login</h2>
+      <input type="text" id="username" placeholder="Username">
+      <input type="password" id="password" placeholder="Password">
+      <button onclick="validateLogin()">Login</button>
+    </div>
+  </div>
+  
+  <footer>
+    <p>&copy; 2025 Eventora | Follow us on 
+      <a href="#">Facebook</a> | <a href="#">Instagram</a> | <a href="#">Twitter</a>
+    </p>
+  </footer>
+  
+  <script>
+    function openLoginModal() {
+      document.getElementById("loginModal").style.display = "flex";
+    }
+    
+    function closeLoginModal() {
+      document.getElementById("loginModal").style.display = "none";
+    }
+    
+    function validateLogin() {
+      let username = document.getElementById("username").value;
+      let password = document.getElementById("password").value;
+      
+      if (username === "admin" && password === "password") {
+        alert("Login successful!");
+        closeLoginModal();
+      } else {
+        alert("Invalid credentials, please try again.");
+      }
+    }
+    
+    function toggleSearch() {
+      let searchBox = document.getElementById("searchBox");
+      searchBox.style.display = (searchBox.style.display === "none" || searchBox.style.display === "") ? "block" : "none";
+    }
+    
+    function toggleTheme() {
+      document.body.classList.toggle("dark-mode");
+    }
+    
+    function toggleMenu() {
+      let menu = document.getElementById("menuSlide");
+      menu.classList.toggle("active");
+    }
+    
+    function navigateTo(eventType) {
+      alert("Navigating to " + eventType + " page...");
+    }
+    
+    function showUploadForm() {
+      document.getElementById("uploadForm").style.display = "block";
+    }
+    
+    function hideUploadForm() {
+      document.getElementById("uploadForm").style.display = "none";
+    }
+    
+    function handleSearch(event) {
+      if (event.key === "Enter") {
+        let query = document.getElementById("searchInput").value;
+        alert("Searching for " + query + "...");
+      }
+    }
+    
+    function submitEvent() {
+      // Placeholder function for event submission
+      alert("Event submitted successfully!");
+      hideUploadForm();
+    }
+    
+    // Additional Test Cases:
+    // In the browser console, you can call functions like:
+    // toggleSearch(), toggleTheme(), toggleMenu(), navigateTo('Test Event'), showUploadForm(), hideUploadForm(), submitEvent()
+  </script>
+</body>
+</html>
